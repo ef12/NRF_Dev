@@ -1,1 +1,12 @@
-.metadata/*
+.metadata
+RemoteSystemsTempFiles
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommender
