@@ -1,0 +1,3 @@
+[submodule "nrfSDK_V13_2_0"]
+	path = nrfSDK_V13_2_0
+	url = https://github.com/ef12/nrfSDK_V13_2_0.git
