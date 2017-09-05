@@ -2,6 +2,7 @@
 RemoteSystemsTempFiles
 Packages
 Debug
+Debug/
 debug
 Release
 release
