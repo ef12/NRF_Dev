@@ -1,8 +1,14 @@
 .metadata
 RemoteSystemsTempFiles
-bin/
-tmp/
-*.tmp
+Packages
+Debug
+debug
+Release
+release
+*.hex
+*.map
+*.o
+*.elf
 *.bak
 *.swp
 *~.nib
