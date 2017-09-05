@@ -49,8 +49,10 @@
  *
  */
 
+#include "mcal_reg.hpp"
 #include <stdbool.h>
 #include <stdint.h>
+#include "led.hpp"
 #include "nrf_delay.h"
 #include "boards.h"
 
@@ -60,29 +62,37 @@
 int main(void)
 {
 	uint8_t button_state[BUTTONS_NUMBER][2];
+	led * leds[4];
 	// Configure board LEDs.
-    bsp_board_leds_init();
+	led led1(board::led1_pin);
+	leds[0] = &led1;
+	led led2(board::led2_pin);
+	leds[1] = &led2;
+	led led3(board::led3_pin);
+	leds[2] = &led3;
+	led led4(board::led4_pin);
+	leds[3] = &led4;
     // Turn on the LEDs
-    for (int i = 0; i < LEDS_NUMBER; i++) {
-    	bsp_board_led_on(i);
-    	nrf_delay_ms(200);
-    }
+	for(std::uint8_t i = 0; i < board::num_of_leds; i++) {
+		leds[i]->on();
+		nrf_delay_ms(200);
+	}
     // Configure board Buttons.
     bsp_board_buttons_init();
     // Turn off the LEDs
-    for (int i = 0; i < LEDS_NUMBER; i++) {
-		bsp_board_led_off(i);
-		nrf_delay_ms(200);
-	}
+    for(std::uint8_t i = 0; i < board::num_of_leds; i++) {
+    		leds[i]->off();
+    		nrf_delay_ms(200);
+    	}
     // Forever loop
     while (true) {
     	// Scan the buttons state
-        for (int i = 0; i < BUTTONS_NUMBER; i++) {
+        for (std::uint8_t i = 0; i < BUTTONS_NUMBER; i++) {
         		button_state[i][0] = button_state[i][1];
         		button_state[i][1] = bsp_board_button_state_get(i);
         		// Toggle LED if button was pressed (rising edge event)
         		if(button_state[i][0] < button_state[i][1]) {
-        			bsp_board_led_invert(i);
+        			leds[i]->toggle();
         		}
 		}
         // wait for 100ms for de-bouncing
