@@ -54,6 +54,10 @@
 #include "nrf_delay.h"
 #include "boards.h"
 
+namespace
+{
+	constexpr uint32_t leds_delay = 200;
+}
 /**
  * @brief Function for application main entry.
  */
@@ -65,14 +69,14 @@ int main(void)
     // Turn on the LEDs
     for (int i = 0; i < LEDS_NUMBER; i++) {
     	bsp_board_led_on(i);
-    	nrf_delay_ms(200);
+    	nrf_delay_ms(leds_delay);
     }
     // Configure board Buttons.
     bsp_board_buttons_init();
     // Turn off the LEDs
     for (int i = 0; i < LEDS_NUMBER; i++) {
 		bsp_board_led_off(i);
-		nrf_delay_ms(200);
+		nrf_delay_ms(leds_delay);
 	}
     // Forever loop
     while (true) {
