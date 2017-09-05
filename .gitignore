@@ -8,6 +8,8 @@ release
 *.hex
 *.map
 *.o
+*.d
+*.mk
 *.elf
 *.bak
 *.swp
