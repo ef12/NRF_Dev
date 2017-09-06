@@ -52,13 +52,16 @@
 #include "mcal.hpp"
 #include "led.hpp"
 
+#define TEMPLATE_LED
 /**
  * @brief Function for application main entry.
  */
 int main(void)
 {
 	// Configure board LEDs.
-	led led1(mcal::board::led1_pin);
+#ifdef TEMPLATE_LED
+	// Create aled1 at pin 17
+	const led_template<std::uint32_t, mcal::board::led1_pin> led1;
     // Forever loop
     while (true) {
     	// Toggle LED1
@@ -66,6 +69,28 @@ int main(void)
         // wait for 1sec
         timer::nrf_delay_ms(1000);
     }
+    /*
+     * Cross ARM GNU Print Size arm-none-eabi-size --format=berkeley "nrf52RTcpp.elf"
+		   text	   data	    bss	    dec	    hex	filename
+		   2984	    112	     28	   3124	    c34	nrf52RTcpp.elf
+     */
+#else
+    // Create a led object
+	const led led1(mcal::board::led1_pin);
+    // Forever loop
+    while (true) {
+    	// Toggle LED1
+    	led1.toggle();
+        // wait for 1sec
+        timer::nrf_delay_ms(1000);
+    }
+
+    /*
+     * Cross ARM GNU Print Size arm-none-eabi-size --format=berkeley "nrf52RTcpp.elf"
+     	 text	   data	    bss	    dec	    hex	filename
+   	   	 7292	    116	     32	   7440	   1d10	nrf52RTcpp.elf
+     */
+#endif
 }
 
 /**
