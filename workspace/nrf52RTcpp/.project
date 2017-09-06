@@ -31,11 +31,6 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>sdk/boards.c</name>
-			<type>1</type>
-			<locationURI>$%7BSDK_PATH%7D/components/boards/boards.c</locationURI>
-		</link>
-		<link>
 			<name>sdk/gcc_startup_nrf52.S</name>
 			<type>1</type>
 			<locationURI>$%7BSDK_PATH%7D/components/toolchain/gcc/gcc_startup_nrf52.S</locationURI>
@@ -43,7 +38,7 @@
 		<link>
 			<name>sdk/system_nrf52.c</name>
 			<type>1</type>
-			<locationURI>$%7BSDK_PATH%7D/components/toolchain/system_nrf52.c</locationURI>
+			<location>C:/Users/user/Documents/Software_Devel/nrf_dev/nrfSDK_V13_2_0/components/toolchain/system_nrf52.c</location>
 		</link>
 	</linkedResources>
 	<variableList>

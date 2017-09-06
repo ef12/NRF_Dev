@@ -8,9 +8,8 @@
 #ifndef INC_LED_HPP_
 #define INC_LED_HPP_
 
+#include <mcal.hpp>
 #include <cstdint>
-#include "mcal_reg.hpp"
-#include "nrf_gpio.h"
 
 class led
 {

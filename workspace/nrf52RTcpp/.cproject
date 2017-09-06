@@ -62,14 +62,6 @@
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\toolchain\cmsis\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\device&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\toolchain&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\drivers_nrf\delay&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\boards&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\drivers_nrf\hal&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\libraries\util&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\drivers_nrf\nrf_soc_nosd&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\libraries\bsp&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\libraries\timer&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\libraries\button&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.176061000" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="true" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="BOARD_PCA10040"/>
@@ -88,17 +80,6 @@
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths.827162" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths" useByScannerDiscovery="true" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}\inc&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\toolchain\cmsis\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\device&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\toolchain&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\drivers_nrf\delay&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\boards&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\drivers_nrf\hal&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\libraries\util&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\drivers_nrf\nrf_soc_nosd&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\libraries\bsp&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\libraries\timer&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\libraries\button&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.otheroptimizations.1419655459" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.otheroptimizations" useByScannerDiscovery="true" value="--short-enums" valueType="string"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input.343271352" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input"/>
