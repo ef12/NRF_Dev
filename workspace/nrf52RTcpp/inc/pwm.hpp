@@ -6,17 +6,29 @@
 
 namespace ns_pwm
 {
-	class pwm_1CH
+	typedef enum
+	{
+		channel_1,
+		channel_2,
+		channel_3,
+		channel_4,
+		channel_lim
+	}pwm_channel_t;
+
+	static constexpr uint32_t pwm_max_count = UINT32_C(99);
+	class simple_pwm
 	{
 	public:
-		pwm_1CH(const std::uint32_t pin);
+		simple_pwm(const std::uint32_t * const pin, const std::uint32_t base_addrs);
 		void init(void);
-		void deinit(void);
-		void set_duty(const std::uint16_t duty);
-		void get_duty(void);
+		void set_duty(const pwm_channel_t ch, const std::uint16_t duty);
+		uint16_t get_duty(const pwm_channel_t ch);
 	private:
-		std::uint16_t m_duty[4];
-		const std::uint32_t m_pin;
+		static constexpr std::uint8_t pwm_ch_num = 4;
+		std::uint16_t m_duty[pwm_ch_num] = {0,0,0,0};
+		const std::uint32_t* const m_pin;
+		const std::uint32_t m_base_addrs;
+		inline std::uint32_t offset(std::uint32_t offset) { return (m_base_addrs + offset); }
 	};
 };
 #endif /* INC_PWM_HPP_ */

@@ -48,51 +48,108 @@
  * This file contains the source code for a sample application to blink LEDs.
  *
  */
+#include <comms.hpp>
 #include <cstdint>
+
+#include "timers.hpp"
 #include "mcal.hpp"
 #include "led.hpp"
+#include "pwm.hpp"
 
-#define TEMPLATE_LED
-/**
- * @brief Function for application main entry.
- */
+using namespace mcal;
+using namespace mcal::reg;
+
+
+using namespace ns_pwm;
+using namespace ns_timers;
+using namespace ns_uart;
+
 int main(void)
 {
+#ifdef TEST
+	uint16_t i = 0;
+	//pwmInit();
+	ns_pwm::simple_pwm pwm1(17);
+	pwm1.init();
+	while (true) {
+		pwm1.set_duty(i++);
+		if(i > 100)
+			i=0;
+		nrf_delay_ms(20);
+};
+#else
 	// Configure board LEDs.
 #ifdef TEMPLATE_LED
 	// Create aled1 at pin 17
 	const led_template<std::uint32_t, mcal::board::led1_pin> led1;
-    // Forever loop
-    while (true) {
-    	// Toggle LED1
-    	led1.toggle();
-        // wait for 1sec
-        timer::nrf_delay_ms(1000);
-    }
-    /*
-     * Cross ARM GNU Print Size arm-none-eabi-size --format=berkeley "nrf52RTcpp.elf"
+	// Forever loop
+	while (true) {
+		// Toggle LED1
+		led1.toggle();
+		// wait for 1sec
+		nrf_delay_ms(1000);
+	}
+	/*
+ * Cross ARM GNU Print Size arm-none-eabi-size --format=berkeley "nrf52RTcpp.elf"
 		   text	   data	    bss	    dec	    hex	filename
 		   2984	    112	     28	   3124	    c34	nrf52RTcpp.elf
      */
 #else
-    // Create a led object
-	const led led1(mcal::board::led1_pin);
-    // Forever loop
-    while (true) {
-    	// Toggle LED1
-    	led1.toggle();
-        // wait for 1sec
-        timer::nrf_delay_ms(1000);
-    }
+// SysTick_Config(SystemCoreClock/1000);
+	// Create a led object
+	sys_tick led1_timer;
+	sys_tick led2_timer;
+	sys_tick uart_timer;
+com_serial serial(board::uart_rx_pin, board::uart_tx_pin, baud57600);
 
-    /*
-     * Cross ARM GNU Print Size arm-none-eabi-size --format=berkeley "nrf52RTcpp.elf"
-     	 text	   data	    bss	    dec	    hex	filename
-   	   	 7292	    116	     32	   7440	   1d10	nrf52RTcpp.elf
-     */
+	led_port led1(board::led1_pin);
+	const std::uint32_t pins_for_pwm[4] = {gpio::not_used, board::led2_pin, gpio::not_used, gpio::not_used};
+	simple_pwm pwm_for_led(pins_for_pwm, pwm::base_addr[0]);
+	pwm_for_led.init();
+	led_pwm led2(&pwm_for_led, channel_2);
+	serial.open();
+	uint8_t i = 1;
+
+	__enable_irq();
+
+	// Forever loop
+	while (true) {
+		// wait for 1sec
+		if(led1_timer.timer_expired(200)) {
+			led1_timer.save_ticks();
+//			Toggle LED1
+			led_toggler(&led1);
+			// reduce the dimming of led 2
+			led2.dimming(i++);
+			if(i > pwm_max_count) { i = 0; }
+		}
+		if(led2_timer.timer_expired(100)) {
+			led2_timer.save_ticks();
+//			 Toggle LED2
+			led_toggler(&led2);
+		}
+		if(uart_timer.timer_expired(1000)) {
+			uart_timer.save_ticks();
+			serial.write(reinterpret_cast<const uint8_t*>("Ehud "), sizeof("Ehud ")-1);
+			serial.write(reinterpret_cast<const uint8_t*>("Frank: "), sizeof("Frank: ")-1);
+			serial.write(i,4);
+			serial.write(reinterpret_cast<const uint8_t*>("\r\n"), sizeof("\r\n")-1);
+		}
+	}
+
+	/*
+	 * Cross ARM GNU Print Size arm-none-eabi-size --format=berkeley "nrf52RTcpp.elf"
+		 text	   data	    bss	    dec	    hex	filename
+	 7292	    116	     32	   7440	   1d10	nrf52RTcpp.elf
+	 */
+
+#endif
 #endif
 }
 
 /**
  *@}
  **/
+
+
+
