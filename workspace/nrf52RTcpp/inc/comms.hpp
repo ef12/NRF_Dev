@@ -50,10 +50,10 @@ namespace ns_uart
 		virtual bool open(void) = 0;
 		virtual bool close(void) = 0;
 		virtual void write(const uint8_t* buff, uint8_t length) = 0;
-		virtual uint8_t* read(void) = 0;
+		virtual uint8_t read(uint8_t* buff) = 0;
 	protected:
-		com_base(void) { is_rdy = false; }
-		bool is_rdy;
+		com_base(void) { m_rx_rdy = false; }
+		bool m_rx_rdy;
 	private:
 		/* non copy */
 		com_base(const com_base&) = delete;
@@ -70,8 +70,9 @@ namespace ns_uart
 		virtual bool open(void);
 		virtual bool close(void);
 		virtual void write(const uint8_t* buff, uint8_t length);
+		void write(const char* buff, uint8_t length);
 		void write(const int var, const uint8_t length);
-		virtual uint8_t* read(void);
+		virtual uint8_t read(uint8_t* buff);
 		bool is_end_rx(void);
 		virtual ~com_serial() { }
 	private:

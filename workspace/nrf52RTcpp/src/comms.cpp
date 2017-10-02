@@ -22,8 +22,18 @@ void UARTE0_UART0_IRQHandler(void)
 	// check if rx
 	if( *REG_PTR(uart::base_addr,uart::event_rxdrdy) != UINT32_C(0) ) {
 		*REG_PTR(uart::base_addr,uart::event_rxdrdy) = 0UL;
-		if(com_serial::interruptOwner != nullptr)
-			com_serial::interruptOwner->m_rx_c_buff.in(*REG_PTR(uart::base_addr,uart::rxd));
+		if(com_serial::interruptOwner != nullptr) {
+			com_serial* p = com_serial::interruptOwner;
+			uint8_t byte = *REG_PTR(uart::base_addr,uart::rxd);
+			p->write(&byte,1);
+			if(byte != '\r') {
+				if(byte == '\n')
+					p->m_rx_rdy = true;
+				else
+					p->m_rx_c_buff.in(byte);
+			}
+		}
+		*REG_PTR(uart::base_addr,uart::task_start_rx) = UINT32_C(1);
 	}
 	// check if tx
 	if( *REG_PTR(uart::base_addr,uart::event_txdrdy) != UINT32_C(0) ) {
@@ -53,7 +63,7 @@ com_serial::com_serial(const uint32_t rx_pin, const uint32_t tx_pin, baudrate_t 
 	*REG_PTR(gpio::base_addr,gpio::dir) |= (UINT32_C(1) << m_tx_pin);
 	*REG_PTR(uart::base_addr,uart::pseltxd) = m_tx_pin;
 	m_tx_busy = false;
-//	is_rdy = false;
+	m_rx_rdy = false;
 }
 
 bool com_serial::open(void)
@@ -132,6 +142,24 @@ void com_serial::write(const uint8_t* buff, uint8_t length)
 	}
 }
 
+void com_serial::write(const char* buff, uint8_t length)
+{
+	if(m_open) {
+		// disable tx interrupt
+		*REG_PTR(uart::base_addr,uart::intenclr) |= event_txdrdy;
+
+		bool reload = m_tx_c_buff.empty();
+		for(uint8_t i = 0; i < length; i++) {
+			m_tx_c_buff.in(buff[i]);
+		}
+		if(reload) {
+			tx_byte();
+		}
+
+		// enable tx interrupt
+		*REG_PTR(uart::base_addr,uart::intenset) |= event_txdrdy;
+	}
+}
 void com_serial::write(const int var, const uint8_t length)
 {
 	if(m_open) {
@@ -152,24 +180,29 @@ void com_serial::write(const int var, const uint8_t length)
 		*REG_PTR(uart::base_addr,uart::intenset) |= event_txdrdy;
 	}
 }
-uint8_t* com_serial::read(void)
+uint8_t com_serial::read(uint8_t* buff)
 {
+	uint8_t count = 0;
 	if(m_open) {
-		uint8_t byte;
 		// disable rx interrupt
 		*REG_PTR(uart::base_addr,uart::intenclr) |= event_rxdrdy;
-		//byte = m_rx_c_buff.out();
-		byte = *REG_PTR(uart::base_addr,uart::rxd);
+
+		uint8_t size = m_rx_c_buff.size();
+		for(int i = 0; i < size; i++) {
+			buff[i] = m_tx_c_buff.out();
+			count++;
+		}
 		*REG_PTR(uart::base_addr,uart::event_rxdrdy) = 0UL;
 		// enable rx interrupt
 		*REG_PTR(uart::base_addr,uart::intenset) |= event_rxdrdy;
-		return &byte;
+		m_rx_rdy = false;
 	}
-	return 0;
+
+	return count;
 }
 
 bool com_serial::is_end_rx(void)
 {
-	return (bool)( *REG_PTR(uart::base_addr,uart::event_rxdrdy) );
+	return m_rx_rdy;
 }
 

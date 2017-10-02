@@ -189,9 +189,6 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.285605854.490394657" name="app_timer.c" rcbsApplicability="disable" resourcePath="sdk/app_timer.c" toolsToInvoke="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.46069734.1693056648">
-						<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.46069734.1693056648" name="Cross ARM GNU C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.46069734"/>
-					</fileInfo>
 					<fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.285605854.168008029" name="utilities.hpp" rcbsApplicability="disable" resourcePath="inc/utilities.hpp" toolsToInvoke=""/>
 					<sourceEntries>
 						<entry excluding="sdk/app_timer.c|sdk/app_error.c|sdk/app_error_weak.c|sdk/nrf_log_frontend.c|sdk/nrf_log_backend_serial.c|sdk/nrf_drv_uart.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>

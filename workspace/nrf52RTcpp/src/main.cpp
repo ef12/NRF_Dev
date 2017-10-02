@@ -100,7 +100,7 @@ int main(void)
 	sys_tick led1_timer;
 	sys_tick led2_timer;
 	sys_tick uart_timer;
-com_serial serial(board::uart_rx_pin, board::uart_tx_pin, baud57600);
+	com_serial serial(board::uart_rx_pin, board::uart_tx_pin, baud57600);
 
 	led_port led1(board::led1_pin);
 	const std::uint32_t pins_for_pwm[4] = {gpio::not_used, board::led2_pin, gpio::not_used, gpio::not_used};
@@ -109,9 +109,10 @@ com_serial serial(board::uart_rx_pin, board::uart_tx_pin, baud57600);
 	led_pwm led2(&pwm_for_led, channel_2);
 	serial.open();
 	uint8_t i = 1;
-
+	uint8_t rx_buff[64] = {0};
 	__enable_irq();
 
+	serial.write("welcome\r\n", sizeof("welcome\r\n")-1);
 	// Forever loop
 	while (true) {
 		// wait for 1sec
@@ -128,12 +129,13 @@ com_serial serial(board::uart_rx_pin, board::uart_tx_pin, baud57600);
 //			 Toggle LED2
 			led_toggler(&led2);
 		}
-		if(uart_timer.timer_expired(1000)) {
+		if(uart_timer.timer_expired(100)) {
 			uart_timer.save_ticks();
-			serial.write(reinterpret_cast<const uint8_t*>("Ehud "), sizeof("Ehud ")-1);
-			serial.write(reinterpret_cast<const uint8_t*>("Frank: "), sizeof("Frank: ")-1);
-			serial.write(i,4);
-			serial.write(reinterpret_cast<const uint8_t*>("\r\n"), sizeof("\r\n")-1);
+			if(serial.is_end_rx()) {
+				uint8_t L = serial.read(rx_buff);
+				serial.write(rx_buff, L);
+				serial.write("\r\n", sizeof("\r\n")-1);
+			}
 		}
 	}
 
