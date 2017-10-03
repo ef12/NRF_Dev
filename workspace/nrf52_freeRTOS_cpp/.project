@@ -26,9 +26,64 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>freeRTOS</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>sdk</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/croutine.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/source/croutine.c</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/event_groups.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/source/event_groups.c</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/heap_1.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/source/portable/MemMang/heap_1.c</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/list.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/source/list.c</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/port.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/portable/GCC/nrf52/port.c</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/port_cmsis.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/portable/CMSIS/nrf52/port_cmsis.c</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/port_cmsis_systick.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/portable/CMSIS/nrf52/port_cmsis_systick.c</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/queue.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/source/queue.c</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/tasks.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/source/tasks.c</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/timers.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/source/timers.c</locationURI>
 		</link>
 		<link>
 			<name>sdk/RTT_Syscalls_GCC.c</name>

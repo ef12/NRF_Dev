@@ -63,6 +63,10 @@
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}\components\toolchain&quot;"/>
 									<listOptionValue builtIn="false" value="${SDK_PATH}/components/device"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/source/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/config&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/portable/CMSIS/nrf52&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/portable/GCC/nrf52&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/drivers_nrf/delay&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/toolchain/cmsis/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/libraries/util&quot;"/>
@@ -130,7 +134,11 @@
 									<listOptionValue builtIn="false" value="${SDK_PATH}/components/device"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/drivers_nrf/delay&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/source/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/config&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/toolchain/cmsis/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/portable/CMSIS/nrf52&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/portable/GCC/nrf52&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/libraries/util&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/drivers_nrf/pwm&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/drivers_nrf/uart&quot;"/>
@@ -158,8 +166,8 @@
 							</tool>
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.1890046579" name="Cross ARM GNU C++ Linker" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker">
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.gcsections.1242962422" name="Remove unused sections (-Xlinker --gc-sections)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.gcsections" value="true" valueType="boolean"/>
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.scriptfile.1168387853" name="Script files (-T)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.scriptfile" valueType="stringList">
-									<listOptionValue builtIn="false" value="${ProjDirPath}/linker/nrf52RTcpp.ld"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.scriptfile.1168387853" name="Script files (-T)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.scriptfile" useByScannerDiscovery="false" valueType="stringList">
+									<listOptionValue builtIn="false" value="${ProjDirPath}/linker/gcc_nrf52_freeRTOS_cpp.ld"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.libs.1724340589" name="Libraries (-l)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="c"/>
@@ -189,8 +197,11 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.285605854.1270676947" name="event_groups.c" rcbsApplicability="disable" resourcePath="freeRTOS/event_groups.c" toolsToInvoke="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.46069734.659611579">
+						<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.46069734.659611579" name="Cross ARM GNU C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.46069734"/>
+					</fileInfo>
 					<sourceEntries>
-						<entry excluding="sdk/app_timer.c|sdk/app_error.c|sdk/app_error_weak.c|sdk/nrf_log_frontend.c|sdk/nrf_log_backend_serial.c|sdk/nrf_drv_uart.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

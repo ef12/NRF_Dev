@@ -116,7 +116,7 @@ int main(void)
 	// Forever loop
 	while (true) {
 		// wait for 1sec
-		if(led1_timer.timer_expired(200)) {
+		if(led1_timer.timer_expired(2000)) {
 			led1_timer.save_ticks();
 //			Toggle LED1
 			led_toggler(&led1);
@@ -124,7 +124,7 @@ int main(void)
 			led2.dimming(i++);
 			if(i > pwm_max_count) { i = 0; }
 		}
-		if(led2_timer.timer_expired(100)) {
+		if(led2_timer.timer_expired(1000)) {
 			led2_timer.save_ticks();
 //			 Toggle LED2
 			led_toggler(&led2);
