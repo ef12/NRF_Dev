@@ -64,7 +64,6 @@
 									<listOptionValue builtIn="false" value="${SDK_PATH}/components/device"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/source/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/config&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/portable/CMSIS/nrf52&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/portable/GCC/nrf52&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/drivers_nrf/delay&quot;"/>
@@ -135,7 +134,6 @@
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/drivers_nrf/delay&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/source/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/config&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/toolchain/cmsis/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/portable/CMSIS/nrf52&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/external/freertos/portable/GCC/nrf52&quot;"/>
@@ -197,9 +195,6 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.285605854.1270676947" name="event_groups.c" rcbsApplicability="disable" resourcePath="freeRTOS/event_groups.c" toolsToInvoke="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.46069734.659611579">
-						<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.46069734.659611579" name="Cross ARM GNU C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.46069734"/>
-					</fileInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
