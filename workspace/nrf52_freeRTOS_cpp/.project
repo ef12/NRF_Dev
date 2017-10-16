@@ -46,6 +46,11 @@
 			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/source/event_groups.c</locationURI>
 		</link>
 		<link>
+			<name>freeRTOS/freertos_addons</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>freeRTOS/heap_1.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/source/portable/MemMang/heap_1.c</locationURI>
@@ -209,6 +214,21 @@
 			<name>sdk/system_nrf52.c</name>
 			<type>1</type>
 			<location>C:/Users/user/Documents/Software_Devel/nrf_dev/nrfSDK_V13_2_0/components/toolchain/system_nrf52.c</location>
+		</link>
+		<link>
+			<name>freeRTOS/freertos_addons/ctimer.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/freertos-addons_1_4_0/c++/Source/ctimer.cpp</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/freertos_addons/include</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/freertos_addons/include/timer.hpp</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/freertos-addons_1_4_0/c++/Source/include/timer.hpp</locationURI>
 		</link>
 	</linkedResources>
 	<variableList>
