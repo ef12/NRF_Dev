@@ -22,18 +22,18 @@ void led::toggle(void) const {
 	nrf_gpio_pin_toggle(m_pin);
 }
 
-led_blink::led_blink(const char * const TimerName, TickType_t PeriodInTicks,
+led_blinker::led_blinker(const char * const TimerName, TickType_t PeriodInTicks,
 		bool Periodic, led* p_led) :
 		Timer(TimerName, PeriodInTicks, Periodic) {
 	m_led = p_led;
 }
 
-led_blink::led_blink(TickType_t PeriodInTicks, bool Periodic, led* p_led) :
+led_blinker::led_blinker(TickType_t PeriodInTicks, bool Periodic, led* p_led) :
 		Timer(PeriodInTicks, Periodic) {
 	m_led = p_led;
 }
 
-void led_blink::Run() {
+void led_blinker::Run() {
 	m_led->toggle();
 }
 

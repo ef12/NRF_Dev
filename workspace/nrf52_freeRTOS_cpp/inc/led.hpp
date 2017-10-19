@@ -45,11 +45,11 @@ private:
 	const uint32_t m_pin;
 };
 
-class led_blink: public Timer {
+class led_blinker: public Timer {
 public:
-	led_blink(const char * const TimerName, TickType_t PeriodInTicks,
+	explicit led_blinker(const char * const TimerName, TickType_t PeriodInTicks,
 			bool Periodic = true, led* p_led = nullptr);
-	led_blink(TickType_t PeriodInTicks, bool Periodic = true, led* p_led =
+	explicit led_blinker(TickType_t PeriodInTicks, bool Periodic = true, led* p_led =
 			nullptr);
 private:
 	virtual void Run();
