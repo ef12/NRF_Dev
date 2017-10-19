@@ -231,19 +231,39 @@
 			<location>C:/Users/user/Documents/Software_Devel/nrf_dev/nrfSDK_V13_2_0/components/toolchain/system_nrf52.c</location>
 		</link>
 		<link>
+			<name>freeRTOS/freertos_addons/cmutex.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/freertos-addons_1_4_0/c++/Source/cmutex.cpp</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/freertos_addons/cqueue.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/freertos-addons_1_4_0/c++/Source/cqueue.cpp</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/freertos_addons/csemaphore.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/freertos-addons_1_4_0/c++/Source/csemaphore.cpp</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/freertos_addons/ctasklet.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/freertos-addons_1_4_0/c++/Source/ctasklet.cpp</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/freertos_addons/cthread.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/freertos-addons_1_4_0/c++/Source/cthread.cpp</locationURI>
+		</link>
+		<link>
+			<name>freeRTOS/freertos_addons/ctickhook.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/freertos-addons_1_4_0/c++/Source/ctickhook.cpp</locationURI>
+		</link>
+		<link>
 			<name>freeRTOS/freertos_addons/ctimer.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/freertos-addons_1_4_0/c++/Source/ctimer.cpp</locationURI>
-		</link>
-		<link>
-			<name>freeRTOS/freertos_addons/include</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>freeRTOS/freertos_addons/include/timer.hpp</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/external/freertos/freertos-addons_1_4_0/c++/Source/include/timer.hpp</locationURI>
 		</link>
 	</linkedResources>
 	<variableList>

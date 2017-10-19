@@ -52,123 +52,128 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
-#include "app_uart.h"
-#include "app_error.h"
-#include "nrf_delay.h"
+#include <iostream>
+
+#include "nordic_common.h"
+#include "nrf_drv_clock.h"
 #include "nrf.h"
 #include "bsp.h"
+#include "nrf_delay.h"
+#include "nrf_uart.h"
+
+#include "sdk_errors.h"
+#include "app_error.h"
 
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
 #include "semphr.h"
 #include "timers.h"
-#include "bsp.h"
-#include "nordic_common.h"
-#include "nrf_drv_clock.h"
-#include "sdk_errors.h"
-#include "app_error.h"
+
 #include "led.hpp"
+#include "uart.hpp"
 
-//#define ENABLE_LOOPBACK_TEST  /**< if defined, then this example will be a loopback test, which means that TX should be connected to RX to get data loopback. */
+#include "thread.hpp"
+#include "tasklet.hpp"
+#include "ticks.hpp"
 
-#define MAX_TEST_DATA_BYTES     (15U)                /**< max number of test bytes to be used for tx and rx. */
-#define UART_TX_BUF_SIZE 256                         /**< UART TX buffer size. */
-#define UART_RX_BUF_SIZE 256                         /**< UART RX buffer size. */
-
-uint8_t rx_buff[UART_RX_BUF_SIZE];
-uint8_t tx_buff[UART_RX_BUF_SIZE];
-
-void uart_handle(app_uart_evt_t * p_event) {
-	uint8_t cr;
-	static uint8_t rx_index = 0;
-	static uint8_t tx_index = 0;
-	static uint8_t N = 0;
-	switch (p_event->evt_type) {
-	case APP_UART_COMMUNICATION_ERROR:
-		APP_ERROR_HANDLER(p_event->data.error_communication);
-		break;
-	case APP_UART_FIFO_ERROR:
-		APP_ERROR_HANDLER(p_event->data.error_code);
-		break;
-	case APP_UART_DATA_READY:
-		app_uart_get(&cr);
-		if (cr == '\r') {
-			app_uart_put('\r');
-			app_uart_put('\n');
-			if (rx_index) {
-				memcpy(tx_buff, rx_buff, rx_index);
-				app_uart_put(tx_buff[tx_index++]);
-				N = rx_index;
-			}
-			rx_index = 0;
-		} else {
-			rx_buff[rx_index++] = cr;
-			app_uart_put(cr);
-		}
-		break;
-	case APP_UART_TX_EMPTY:
-		if (tx_index > N) {
-			tx_index = N = 0;
-		} else if (tx_index) {
-			app_uart_put(tx_buff[tx_index++]);
-		}
-		break;
-	default:
-		break;
-	}
-}
 #if LEDS_NUMBER <= 2
 #error "Board is not equipped with enough amount of LEDs"
 #endif
 
+using namespace cpp_freertos;
+using namespace std;
+
+class Task: public Thread {
+
+public:
+
+	Task(string name, int i, int delayInSeconds) :
+			Thread(name, 100, 1), id(i), DelayInSeconds(delayInSeconds) {
+		//
+		//  Now that construction is completed, we
+		//  can safely start the thread.
+		//
+		Start();
+	}
+	;
+
+protected:
+
+	virtual void Run() {
+		static int i = 0;
+		TickType_t ticks = Ticks::TicksToMs(DelayInSeconds);
+		int lid = id;
+		while (true) {
+			if (ticks) {
+				if (lid == 1) {
+					app_uart_put('1');
+				}
+				if (lid == 2) {
+					app_uart_put('2');
+				}
+				Delay(ticks / portTICK_RATE_MS);
+			}
+		}
+	}
+	;
+
+private:
+	int id;
+	int DelayInSeconds;
+};
+
 int main(void) {
 	ret_code_t err_code;
-
-	const app_uart_comm_params_t comm_params = {
-	RX_PIN_NUMBER,
-	TX_PIN_NUMBER,
-	RTS_PIN_NUMBER,
-	CTS_PIN_NUMBER, APP_UART_FLOW_CONTROL_ENABLED, false,
-	UART_BAUDRATE_BAUDRATE_Baud115200 };
-
-	APP_UART_FIFO_INIT(&comm_params, UART_RX_BUF_SIZE, UART_TX_BUF_SIZE,
-			uart_handle, APP_IRQ_PRIORITY_LOWEST, err_code);
-
+	err_code = nrf_drv_clock_init();
 	APP_ERROR_CHECK(err_code);
+
+	uart_init();
+
 	static led led1(LED_1), led2(LED_2), led3(LED_3);
 	static led_blinker led1Blinker("led1", 1000, 1, &led1), led2Blinker("led1",
 			400, 1, &led2), led3Blinker("led1", 600, 1, &led3);
 	/* Initialize clock driver for better time accuracy in FREERTOS */
-	err_code = nrf_drv_clock_init();
-	APP_ERROR_CHECK(err_code);
 
 	led1Blinker.Start(0);
 	led2Blinker.Start(0);
 	led3Blinker.Start(0);
 
+	Task Task_1("T_1", 1, 250);
+	Task Task_2("T_2", 2, 1000);
+
 	/* Activate deep sleep mode */
-	SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
+//	SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
 	/* Start the scheduler so the created tasks start executing. */
-	vTaskStartScheduler();
+//	vTaskStartScheduler();
+//	cout << "Testing FreeRTOS C++ wrappers" << endl;
+//	cout << "Tasklets" << endl;
+	Thread::StartScheduler();
 
 	while (true) {
-//		uint8_t cr;
-//		while (app_uart_get(&cr) != NRF_SUCCESS)
-//						;
-//		while (app_uart_put(cr) != NRF_SUCCESS)
-//			;
-//
-//		if (cr == 'q' || cr == 'Q') {
-//			printf(" \r\nExit!\r\n");
-//
-//			while (true) {
-//				// Do nothing.
-//			}
-//		}
+
 	}
 }
 
+void vAssertCalled(unsigned long ulLine, const char * const pcFileName) {
+//	printf("ASSERT: %s : %d\n", pcFileName, (int) ulLine);
+	while (1)
+		;
+}
+
+unsigned long ulGetRunTimeCounterValue(void) {
+	return 0;
+}
+
+void vConfigureTimerForRunTimeStats(void) {
+	return;
+}
+
+extern "C" void vApplicationMallocFailedHook(void);
+void vApplicationMallocFailedHook(void) {
+	while (1)
+		;
+}
 /**
  *@}
  **/
