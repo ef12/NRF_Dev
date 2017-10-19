@@ -73,6 +73,8 @@
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/libraries/util&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/drivers_nrf/pwm&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/drivers_nrf/uart&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/libraries/uart&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/libraries/fifo&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/libraries/bsp&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/device&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/libraries/log&quot;"/>
@@ -147,6 +149,8 @@
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/drivers_nrf/pwm&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/drivers_nrf/uart&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/libraries/bsp&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/libraries/uart&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/libraries/fifo&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/device&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/libraries/log&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${SDK_PATH}/components/libraries/button&quot;"/>
@@ -202,8 +206,11 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.285605854.334613881" name="app_uart.c" rcbsApplicability="disable" resourcePath="sdk/app_uart.c" toolsToInvoke="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.46069734.193111840">
+						<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.46069734.193111840" name="Cross ARM GNU C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.46069734"/>
+					</fileInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="sdk/app_uart.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

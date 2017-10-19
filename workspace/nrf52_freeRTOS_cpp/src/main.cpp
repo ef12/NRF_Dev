@@ -51,9 +51,17 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdio.h>
+#include "app_uart.h"
+#include "app_error.h"
+#include "nrf_delay.h"
+#include "nrf.h"
+#include "bsp.h"
 
 #include "FreeRTOS.h"
 #include "task.h"
+#include "queue.h"
+#include "semphr.h"
 #include "timers.h"
 #include "bsp.h"
 #include "nordic_common.h"
@@ -62,40 +70,74 @@
 #include "app_error.h"
 #include "led.hpp"
 
+//#define ENABLE_LOOPBACK_TEST  /**< if defined, then this example will be a loopback test, which means that TX should be connected to RX to get data loopback. */
+
+#define MAX_TEST_DATA_BYTES     (15U)                /**< max number of test bytes to be used for tx and rx. */
+#define UART_TX_BUF_SIZE 256                         /**< UART TX buffer size. */
+#define UART_RX_BUF_SIZE 256                         /**< UART RX buffer size. */
+
+uint8_t rx_buff[UART_RX_BUF_SIZE];
+uint8_t tx_buff[UART_RX_BUF_SIZE];
+
+void uart_handle(app_uart_evt_t * p_event) {
+	uint8_t cr;
+	static uint8_t rx_index = 0;
+	static uint8_t tx_index = 0;
+	static uint8_t N = 0;
+	switch (p_event->evt_type) {
+	case APP_UART_COMMUNICATION_ERROR:
+		APP_ERROR_HANDLER(p_event->data.error_communication);
+		break;
+	case APP_UART_FIFO_ERROR:
+		APP_ERROR_HANDLER(p_event->data.error_code);
+		break;
+	case APP_UART_DATA_READY:
+		app_uart_get(&cr);
+		if (cr == '\r') {
+			app_uart_put('\r');
+			app_uart_put('\n');
+			if (rx_index) {
+				memcpy(tx_buff, rx_buff, rx_index);
+				app_uart_put(tx_buff[tx_index++]);
+				N = rx_index;
+			}
+			rx_index = 0;
+		} else {
+			rx_buff[rx_index++] = cr;
+			app_uart_put(cr);
+		}
+		break;
+	case APP_UART_TX_EMPTY:
+		if (tx_index > N) {
+			tx_index = N = 0;
+		} else if (tx_index) {
+			app_uart_put(tx_buff[tx_index++]);
+		}
+		break;
+	default:
+		break;
+	}
+}
 #if LEDS_NUMBER <= 2
 #error "Board is not equipped with enough amount of LEDs"
 #endif
 
-#define TIMER_PERIOD		1000	/**< Timer period. LED1 timer will expire after 1000 ms */
-
-TaskHandle_t led_toggle_task_handle; /**< Reference to LED0 toggling FreeRTOS task. */
-//TimerHandle_t led_toggle_timer_handle; /**< Reference to LED1 toggling FreeRTOS timer. */
-
-/**@brief LED0 task entry function.
- *
- * @param[in] pvParameter   Pointer that will be used as the parameter for the task.
- */
-//static void led_toggle_task_function(void * pvParameter) {
-//	UNUSED_PARAMETER(pvParameter);
-//	led led1(LED_1);
-//	while (true) {
-//		led1.toggle();
-//		//bsp_board_led_invert(BSP_BOARD_LED_0);
-//		/* Delay a task for a given number of ticks */
-//		vTaskDelay(TASK_DELAY);
-//
-//		/* Tasks must be implemented to never return... */
-//	}
-//}
-/**@brief The function to call when the LED1 FreeRTOS timer expires.
- *
- * @param[in] pvParameter   Pointer that will be used as the parameter for the timer.
- */
-
 int main(void) {
 	ret_code_t err_code;
+
+	const app_uart_comm_params_t comm_params = {
+	RX_PIN_NUMBER,
+	TX_PIN_NUMBER,
+	RTS_PIN_NUMBER,
+	CTS_PIN_NUMBER, APP_UART_FLOW_CONTROL_ENABLED, false,
+	UART_BAUDRATE_BAUDRATE_Baud115200 };
+
+	APP_UART_FIFO_INIT(&comm_params, UART_RX_BUF_SIZE, UART_TX_BUF_SIZE,
+			uart_handle, APP_IRQ_PRIORITY_LOWEST, err_code);
+
+	APP_ERROR_CHECK(err_code);
 	static led led1(LED_1), led2(LED_2), led3(LED_3);
-	static led_blink led1Blinker("led1", 200, 1, &led1), led2Blinker("led1",
+	static led_blinker led1Blinker("led1", 1000, 1, &led1), led2Blinker("led1",
 			400, 1, &led2), led3Blinker("led1", 600, 1, &led3);
 	/* Initialize clock driver for better time accuracy in FREERTOS */
 	err_code = nrf_drv_clock_init();
@@ -107,13 +149,23 @@ int main(void) {
 
 	/* Activate deep sleep mode */
 	SCB->SCR |= SCB_SCR_SLEEPDEEP_Msk;
-
-	/* Start FreeRTOS scheduler. */
+	/* Start the scheduler so the created tasks start executing. */
 	vTaskStartScheduler();
 
 	while (true) {
-		/* FreeRTOS should not be here... FreeRTOS goes back to the start of stack
-		 * in vTaskStartScheduler function. */
+//		uint8_t cr;
+//		while (app_uart_get(&cr) != NRF_SUCCESS)
+//						;
+//		while (app_uart_put(cr) != NRF_SUCCESS)
+//			;
+//
+//		if (cr == 'q' || cr == 'Q') {
+//			printf(" \r\nExit!\r\n");
+//
+//			while (true) {
+//				// Do nothing.
+//			}
+//		}
 	}
 }
 

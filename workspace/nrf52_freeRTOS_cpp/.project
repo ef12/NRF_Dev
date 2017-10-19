@@ -121,9 +121,24 @@
 			<location>C:/Users/user/Documents/Software_Devel/nrf_dev/nrfSDK_V13_2_0/components/libraries/util/app_error_weak.c</location>
 		</link>
 		<link>
+			<name>sdk/app_fifo.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/components/libraries/fifo/app_fifo.c</locationURI>
+		</link>
+		<link>
 			<name>sdk/app_timer.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/components/libraries/timer/app_timer.c</locationURI>
+		</link>
+		<link>
+			<name>sdk/app_uart.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/components/libraries/uart/app_uart.c</locationURI>
+		</link>
+		<link>
+			<name>sdk/app_uart_fifo.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nrfSDK_V13_2_0/components/libraries/uart/app_uart_fifo.c</locationURI>
 		</link>
 		<link>
 			<name>sdk/app_util_platform.c</name>
