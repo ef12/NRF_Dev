@@ -23,17 +23,16 @@ void led::toggle(void) const {
 }
 
 led_blinker::led_blinker(const char * const TimerName, TickType_t PeriodInTicks,
-		bool Periodic, led* p_led) :
-		Timer(TimerName, PeriodInTicks, Periodic) {
-	m_led = p_led;
+		const std::uint32_t pin, bool Periodic) :
+		Timer(TimerName, PeriodInTicks, Periodic), led(pin) {
 }
 
-led_blinker::led_blinker(TickType_t PeriodInTicks, bool Periodic, led* p_led) :
-		Timer(PeriodInTicks, Periodic) {
-	m_led = p_led;
+led_blinker::led_blinker(TickType_t PeriodInTicks, const std::uint32_t pin,
+		bool Periodic) :
+		Timer(PeriodInTicks, Periodic), led(pin) {
 }
 
 void led_blinker::Run() {
-	m_led->toggle();
+	toggle();
 }
 

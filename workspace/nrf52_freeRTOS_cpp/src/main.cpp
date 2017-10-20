@@ -123,6 +123,9 @@ private:
 	int DelayInSeconds;
 };
 
+led_blinker led1Blinker("led1", 1000, LED_1, 1), led2Blinker("led2", 400, LED_2,
+		1), led3Blinker("led3", 600, LED_3, 1);
+
 int main(void) {
 	ret_code_t err_code;
 	err_code = nrf_drv_clock_init();
@@ -130,9 +133,6 @@ int main(void) {
 
 	uart_init();
 
-	static led led1(LED_1), led2(LED_2), led3(LED_3);
-	static led_blinker led1Blinker("led1", 1000, 1, &led1), led2Blinker("led1",
-			400, 1, &led2), led3Blinker("led1", 600, 1, &led3);
 	/* Initialize clock driver for better time accuracy in FREERTOS */
 
 	led1Blinker.Start(0);

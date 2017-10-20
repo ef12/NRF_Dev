@@ -45,19 +45,16 @@ private:
 	const uint32_t m_pin;
 };
 
-class led_blinker: public Timer {
+class led_blinker: public Timer, public led {
 public:
-	explicit led_blinker(const char * const TimerName, TickType_t PeriodInTicks,
-			bool Periodic = true, led* p_led = nullptr);
-	explicit led_blinker(TickType_t PeriodInTicks, bool Periodic = true, led* p_led =
-			nullptr);
+	led_blinker(const char * const TimerName, TickType_t PeriodInTicks,
+			const std::uint32_t pin, bool Periodic = true);
+	led_blinker(TickType_t PeriodInTicks, const std::uint32_t pin,
+			bool Periodic = true);
 private:
 	virtual void Run();
-	led* m_led;
 };
 
 #define TASK_DELAY			500	/**< Task delay. Delays a LED0 task for 500 ms */
-
-
 
 #endif /* INC_LED_HPP_ */
