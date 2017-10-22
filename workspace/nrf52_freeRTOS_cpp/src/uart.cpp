@@ -5,16 +5,14 @@
  *      Author: user
  */
 #include "uart.hpp"
+using namespace cpp_freertos;
 
-Queue uart_queue(0xFF, sizeof(uint8_t));
-BinarySemaphore rx_semaphore, tx_semaphore;
+bool com_serial::m_open;
+com_serial* com_serial::interruptOwner;
 
-//uint8_t rx_buff[UART_RX_BUF_SIZE];
-//uint8_t tx_buff[UART_RX_BUF_SIZE];
-//uint8_t cr;
-
-uart_task::uart_task(string name, int i, UBaseType_t priority, int ms_delay) :
-		Thread(name, 100, priority), id(i), m_ms_delay(ms_delay) {
+uart_task::uart_task(string name, int i, UBaseType_t priority, int ms_delay,
+		com_serial * uart) :
+		Thread(name, 100, priority), id(i), m_ms_delay(ms_delay), m_uart(uart) {
 //  Now that construction is completed, we start the thread.
 	Start();
 }
@@ -24,18 +22,15 @@ void uart_task::Run() {
 	uint8_t rx_char;
 	portBASE_TYPE xStatus;
 	while (true) {
-		rx_semaphore.Take(portMAX_DELAY);
-		if (!uart_queue.IsEmpty()) {
-			uart_queue.DequeueFromISR(&rx_char, NULL);
-			tx_semaphore.Give();
+		m_uart->rx_semaphore.Take(portMAX_DELAY);
+		if (!m_uart->uart_queue.IsEmpty()) {
+			m_uart->uart_queue.DequeueFromISR(&rx_char, NULL);
+			m_uart->tx_semaphore.Give();
 			app_uart_put(rx_char);
 		}
 	}
 }
 
-const app_uart_comm_params_t comm_params = { RX_PIN_NUMBER, TX_PIN_NUMBER,
-UART_PIN_DISCONNECTED, UART_PIN_DISCONNECTED, APP_UART_FLOW_CONTROL_ENABLED,
-		false, NRF_UART_BAUDRATE_115200 };
 extern "C" {
 
 void uart_handle(app_uart_evt_t * p_event) {
@@ -53,15 +48,15 @@ void uart_handle(app_uart_evt_t * p_event) {
 		if (cr == '\r') {
 			app_uart_put('\r');
 			app_uart_put('\n');
-			rx_semaphore.GiveFromISR(NULL);
+			com_serial::interruptOwner->rx_semaphore.GiveFromISR(NULL);
 		} else {
-			uart_queue.EnqueueFromISR(&cr, NULL);
+			com_serial::interruptOwner->uart_queue.EnqueueFromISR(&cr, NULL);
 			app_uart_put(cr);
 		}
 		break;
 	case APP_UART_TX_EMPTY:
-		if (tx_semaphore.TakeFromISR(NULL)) {
-			rx_semaphore.GiveFromISR(NULL);
+		if (com_serial::interruptOwner->tx_semaphore.TakeFromISR(NULL)) {
+			com_serial::interruptOwner->rx_semaphore.GiveFromISR(NULL);
 		}
 
 		break;
@@ -70,15 +65,46 @@ void uart_handle(app_uart_evt_t * p_event) {
 	}
 }
 
-void uart_init(void) {
-	ret_code_t err_code;
-
-	static uart_task Task_1("T_1", 1, 1, 250);
-
-	APP_UART_FIFO_INIT(&comm_params, UART_RX_BUF_SIZE, UART_TX_BUF_SIZE,
-			uart_handle, APP_IRQ_PRIORITY_LOWEST, err_code);
-
-	APP_ERROR_CHECK(err_code);
+//void uart_init(void) {
+//	ret_code_t err_code;
+//
+//	static uart_task Task_1("T_1", 1, 1, 250);
+//
+//	APP_UART_FIFO_INIT(&comm_params, UART_RX_BUF_SIZE, UART_TX_BUF_SIZE,
+//			uart_handle, APP_IRQ_PRIORITY_LOWEST, err_code);
+//
+//	APP_ERROR_CHECK(err_code);
+//}
 }
+
+com_serial::com_serial(const uint32_t rx_pin, const uint32_t tx_pin,
+		const nrf_uart_baudrate_t baud) :
+		m_comm_params( { rx_pin, tx_pin,
+		UART_PIN_DISCONNECTED, UART_PIN_DISCONNECTED,
+				APP_UART_FLOW_CONTROL_ENABLED, false, baud }), uart_queue(0xFF,
+				sizeof(uint8_t)) {
+	m_tx_busy = false;
+	m_rx_rdy = false;
 }
 
+bool com_serial::open(void) {
+	if (!m_open) {
+
+		m_tx_busy = false;
+		interruptOwner = this;
+
+		static ret_code_t err_code;
+
+		static uart_task Task_1("T_1", 1, 1, 250, this);
+
+		APP_UART_FIFO_INIT(&m_comm_params, UART_RX_BUF_SIZE, UART_TX_BUF_SIZE,
+				uart_handle, APP_IRQ_PRIORITY_LOWEST, err_code);
+
+		APP_ERROR_CHECK(err_code);
+
+		m_open = true;
+
+		return true;
+	}
+	return false;
+}
