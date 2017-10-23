@@ -20,13 +20,12 @@
 led_blinker led1Blinker("led1", 100, LED_1), led2Blinker("led2", 200, LED_2),
 		led3Blinker("led3", 300, LED_3), led4Blinker("led4", 400, LED_4);
 
-com_serial uart(RX_PIN_NUMBER, TX_PIN_NUMBER, NRF_UART_BAUDRATE_115200);
+uart_tasker uart(3, RX_PIN_NUMBER, TX_PIN_NUMBER, NRF_UART_BAUDRATE_115200);
 
 int main(void) {
 	ret_code_t err_code;
 	err_code = nrf_drv_clock_init();
 	APP_ERROR_CHECK(err_code);
-
 
 	uart.open();
 

@@ -32,23 +32,6 @@ void uart_init(void);
 using namespace cpp_freertos;
 using namespace std;
 
-class com_serial;
-class com_base;
-
-class uart_task: public Thread {
-public:
-	uart_task(string name, int i, UBaseType_t priority, int ms_delay,
-			com_serial * uart);
-
-protected:
-	virtual void Run();
-
-private:
-	int id;
-	int m_ms_delay;
-	com_serial * m_uart;
-};
-
 class com_base {
 public:
 	virtual ~com_base() {
@@ -68,6 +51,8 @@ private:
 	const com_base& operator =(const com_base&) = delete;
 };
 
+class uart_interrupt;
+
 class com_serial: public com_base {
 public:
 	com_serial(const uint32_t rx_pin, const uint32_t tx_pin,
@@ -80,12 +65,12 @@ public:
 	bool is_end_rx(void);
 	virtual ~com_serial() {
 	}
+	const app_uart_comm_params_t m_comm_params;
 	Queue uart_queue;
 	BinarySemaphore rx_semaphore, tx_semaphore;
 protected:
 
 private:
-	const app_uart_comm_params_t m_comm_params;
 
 	static bool m_open;
 	static com_serial* interruptOwner;
@@ -93,9 +78,23 @@ private:
 		m_tx_busy = true;
 	}
 	bool m_tx_busy;
-
 	friend
 	void ::uart_handle(app_uart_evt_t * p_event);
 };
 
+/**
+ *  freeRTOS C++ uart_tasker .
+ *
+ *  This is a subclass of Thread and com_serial.
+ *
+ */
+class uart_tasker: public Thread, public com_serial {
+public:
+	uart_tasker(UBaseType_t priority, const uint32_t rx_pin,
+			const uint32_t tx_pin, const nrf_uart_baudrate_t baud);
+
+protected:
+	virtual void Run();
+
+};
 #endif /* INC_UART_HPP_ */
