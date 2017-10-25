@@ -207,8 +207,11 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.285605854.582414595" name="app_util_platform.c" rcbsApplicability="disable" resourcePath="sdk/app_util_platform.c" toolsToInvoke="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.46069734.1176988076">
+						<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.46069734.1176988076" name="Cross ARM GNU C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.46069734"/>
+					</fileInfo>
 					<sourceEntries>
-						<entry excluding="src/comms.cpp|inc/comms.hpp|freeRTOS/freertos_addons/include/timer.hpp|sdk/app_uart.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="sdk/app_util_platform.c|sdk/app_button.c|sdk/app_timer.c|sdk/app_error.c|sdk/app_error_weak.c|sdk/app_uart_fifo.c|sdk/app_fifo.c|sdk/nrf_drv_uart.c|src/comms.cpp|inc/comms.hpp|freeRTOS/freertos_addons/include/timer.hpp|sdk/app_uart.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
