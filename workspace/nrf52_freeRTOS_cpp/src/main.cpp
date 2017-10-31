@@ -1,63 +1,19 @@
-// SDK headers
-#include "nordic_common.h"
-#include "nrf_drv_clock.h"
-#include "nrf.h"
-#include "bsp.h"
-#include "nrf_delay.h"
-#include "nrf_uart.h"
-#include "sdk_errors.h"
-#include "app_error.h"
-// freeRTOS c++ headers
-#include "thread.hpp"
-// application headers
-#include "led.hpp"
-#include "uart.hpp"
+/*
+ * main.cpp
+ *
+ *  Created on: Oct 29, 2017
+ *      Author: Ehud Frank
+ */
+#include "app.hpp"
 
-#if LEDS_NUMBER <= 2
-#error "Board is not equipped with enough amount of LEDs"
-#endif
-
-led_blinker led1Blinker("led1", 100, LED_1), led2Blinker("led2", 200, LED_2),
-		led3Blinker("led3", 300, LED_3), led4Blinker("led4", 400, LED_4);
-
-com_serial uart(RX_PIN_NUMBER, TX_PIN_NUMBER);
-uart_parser parser(3, &uart);
-
+application app;
 int main(void) {
-	nrf_drv_clock_init();
-
-	uart.open(1, NRF_UART_BAUDRATE_115200);
-
-	led1Blinker.Start(0);
-	led2Blinker.Start(0);
-	led3Blinker.Start(0);
-	led4Blinker.Start(0);
-
-	Thread::StartScheduler();
-
-	while (true) {
-
-	}
-}
-
-void vAssertCalled(unsigned long ulLine, const char * const pcFileName) {
-	while (1)
+	app.init();
+	app.run();
+	while (true)
 		;
 }
 
-unsigned long ulGetRunTimeCounterValue(void) {
-	return 0;
-}
-
-void vConfigureTimerForRunTimeStats(void) {
-	return;
-}
-
-extern "C" void vApplicationMallocFailedHook(void);
-void vApplicationMallocFailedHook(void) {
-	while (1)
-		;
-}
 /**
  *@}
  **/
